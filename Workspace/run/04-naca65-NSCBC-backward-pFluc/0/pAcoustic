@@ -1,0 +1,65 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  dev                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      pAcoustic;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    INLET
+    {
+        type            pressureOutletNSCBC;
+        field           pAcoustic;
+        gamma           1.4;
+        fieldInf        1;
+        lInf            1;
+        pInf            1e5;
+        etaAc           1;
+        value           $internalField;
+    }
+    OUTLET
+    {
+        type            pressureOutletNSCBC;
+        field           pAcoustic;
+        gamma           1.4;
+        fieldInf        1;
+        lInf            1;
+        pInf            1e5;
+        etaAc           1;
+        value           $internalField;
+    }
+    PER1
+    {
+        type            cyclicAMI;
+    }
+    PER2
+    {
+        type            cyclicAMI;
+
+    }
+    BLADE
+    {
+        type             zeroGradient;
+    }
+    frontAndBackPlanes
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
